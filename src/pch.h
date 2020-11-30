@@ -13,6 +13,7 @@
 #include <string>
 #include <list>
 #include <assert.h>
+#include <queue>
 
 #include <map>
 #include <stack>

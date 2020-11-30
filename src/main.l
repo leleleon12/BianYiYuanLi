@@ -26,9 +26,51 @@ IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
 "char" return T_CHAR;
 
 "=" return LOP_ASSIGN;
+"==" return EQ;
+"!" return NOT;
+"+" return ADD;
+"++" return ADD2;
+"-" return SUB;
+"--" return SUB2;
+"*" return MUL;
+"/" return DIV;
+"%" return MOD;
+"<" return LT;
+"<=" return LE;
+">" return GT;
+">=" return GE;
+"!=" return NE;
 
-";" return  SEMICOLON;
+"printf" return PRINTF;
+"scanf" return SCANF;
 
+";" return SEMICOLON;
+"," return COMMA;
+"(" return LPAREN;
+")" return RPAREN;
+"{" return LBRACE;
+"}" return RBRACE;
+
+"&" return QUOTE;
+"*" return CONTENT;
+ 
+"if" return IF;
+"else" return ELSE; 
+
+"while" return WHILE;
+"for" return FOR;
+"true" {
+    TreeNode *node = new TreeNode(lineno,NODE_CONST);
+    node->b_val = true;
+    yylval = node;
+    return TRUE;
+}
+"false" {
+    TreeNode *node = new TreeNode(lineno,NODE_CONST);
+    node->b_val = false;
+    yylval = node;
+    return FALSE;
+}
 {INTEGER} {
     TreeNode* node = new TreeNode(lineno, NODE_CONST);
     node->type = TYPE_INT;
@@ -45,6 +87,13 @@ IDENTIFIER [[:alpha:]_][[:alpha:][:digit:]_]*
     return CHAR;
 }
 
+{STRING} {
+    TreeNode* node =new TreeNode(lineno,NODE_CONST)
+    node->type = TYPE_STRING;
+    node->str_val=string(yytext);
+    yylval = node;
+    return STRING
+}
 {IDENTIFIER} {
     TreeNode* node = new TreeNode(lineno, NODE_VAR);
     node->var_name = string(yytext);
